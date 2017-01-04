@@ -80,14 +80,6 @@
         <a href="home.php"><span class="glyphicon glyphicon-home"></span> Home</a> &nbsp;
         <a href="profile.php"><span class="glyphicon glyphicon-list-alt"></span> Log</a></h1>
        	<hr />
-        
-<!--        <p class="h4">User Home Page</p> -->
-       
-        
-    <!--<p class="blockquote-reverse" style="margin-top:200px;">
-    Programming Blog Featuring Tutorials on PHP, MySQL, Ajax, jQuery, Web Design and More...<br /><br />
-    <a href="http://www.codingcage.com/2015/04/php-login-and-registration-script-with.html">tutorial link</a>
-    </p>-->
 
         <div class="row" style="margin-top: 150px">
 
@@ -100,8 +92,11 @@
                         <i class="glyphicon glyphicon-lamp"></i>
                         <input type="submit" name="turnOn17" value="LUZ" class="btn btn-primary btn-lg btn-block" />
                     </div>
-
-                    <!--<input type="submit" name="turnOff17" value="Apagar">-->
+                    <br>
+                    <!--<div class="inner-addon left-addon">
+                        <i class="glyphicon glyphicon-lamp"></i>
+                        <input type="submit" name="turnOff17" value="Apagar" class="btn btn-primary btn-lg btn-block" />
+                    </div>-->
                 </form>
 
             </div>
@@ -121,15 +116,15 @@
 <?php
 
 /// Funciones PHP del pin GPIO 17
-//
-if ($_REQUEST['encender17']){
-    echo $date;
+
+if (isset($_REQUEST["encender17"])){
+    echo $date; // Simplemente pureba a ver si se pulsa un botón y hace lo que toca.
 }
-if ($_POST['turnOn17']) {
+if (isset($_POST['turnOn17'])) {
 //    $a- exec("sudo python /var/www/leds/gpio/17/enciende.py");
 //    echo $a;
-//
-    echo $date; // Prueba para ver si entra en el loop al pulsar el botón de arriba (que aún no funciona correctamente)
+
+    echo $date;
 
     $stmt = $movement_done->runQuery("INSERT INTO movements(movement_id, movement_date)
       VALUES(:movement_id, :movement_date)");
@@ -139,6 +134,11 @@ if ($_POST['turnOn17']) {
     $stmt->bindparam(":movement_date", date('Y-m-d H:i:s'));
 
     $stmt->execute();
+
+
+    // Si el script que hemos hecho sobre el sensor fotosesible detecta que el nivel de luz en el ambiente es
+    // mayor que el que se necesita para poder ver algo, no se va a encender la luz led, en caso contrario, se
+    // tendría que hacer lo que viene a continuación con tal de no quedarse a oscuras en ningún momento dado.
 
     $stmt2 = $led_action->runQuery("INSERT INTO led_status(led_id, led_reason, led_status, led_date)
       VALUES(:led_id, :led_reason, :led_status, :led_date)");
@@ -152,7 +152,7 @@ if ($_POST['turnOn17']) {
 
     $stmt2->execute();
 }
-//
+
 //if ($_POST[turnOff17]) {
 //    $a- exec("sudo python /var/www/leds/gpio/17/apaga.py");
 //    echo $a;
@@ -163,19 +163,19 @@ if ($_POST['turnOn17']) {
     $led_reason = "web";
     $led_status = "off";
     $stmt->bindparam(":led_id", $null);
-    $stmt->bindparam(":led_id", $null);
+    $stmt->bindparam(":led_reason", $led_reason);
     $stmt->bindparam(":led_status", $led_status);
     $stmt->bindparam(":led_date", date('Y-m-d H:i:s'));
 
     $stmt->execute();*/
 
 //}
-//
+
 //if ($_POST[parpadear17]) {
 //    $a- exec("sudo python /var/www/leds/gpio/17/parpadea.py");
 //    echo $a;
 //}
-//
+
 //// Fin de las funciones del pin GPIO 17
 
 ?>
