@@ -53,3 +53,28 @@ body{
 h1{
 	font-family:Verdana, Geneva, sans-serif;
 }
+
+/* enable absolute positioning */
+.inner-addon {
+    position: relative;
+}
+
+/* style icon */
+.inner-addon .glyphicon {
+    position: absolute;
+    padding-top: 12px;
+    padding-right: 60px;
+    padding-left: 140px;
+    padding-bottom: 10px;
+    pointer-events: none;
+    color: white;
+    font-size: 20px;
+}
+
+/* align icon */
+.left-addon .glyphicon  { left:  0px;}
+.right-addon .glyphicon { right: 0px;}
+
+/* add padding  */
+.left-addon input  { padding-left:  30px; }
+.right-addon input { padding-right: 30px; }

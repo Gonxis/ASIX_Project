@@ -4,7 +4,12 @@
 	
 	require_once("class.user.php");
 	$auth_user = new USER();
-	
+
+    require_once ("class.movement.php");
+    $movement_done = new MOVEMENT();
+
+    require_once ("class.led.php");
+    $led_action = new LED();
 	
 	$user_id = $_SESSION['user_session'];
 	
@@ -12,6 +17,8 @@
 	$stmt->execute(array(":user_id"=>$user_id));
 	
 	$userRow=$stmt->fetch(PDO::FETCH_ASSOC);
+
+    $date = date('Y-m-d H:i:s');
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -86,14 +93,17 @@
 
             <div class="col-xs-6 col-md-4"></div>
             <div class="col-xs-6 col-md-4">
-                <button type="button" name="turnOn17" class="btn btn-primary btn-lg btn-block">
-                    <i class="glyphicon glyphicon-lamp"></i> &nbsp; LUZ
-                </button>
-                <br>
+
                 <form action="" method="post">
-                    GPIO 17&nbsp;<input type="submit" name="encender17" value="Encender">
-                    <input type="submit" name="apagar17" value="Apagar">
+
+                    <div class="inner-addon left-addon">
+                        <i class="glyphicon glyphicon-lamp"></i>
+                        <input type="submit" name="turnOn17" value="LUZ" class="btn btn-primary btn-lg btn-block" />
+                    </div>
+
+                    <!--<input type="submit" name="turnOff17" value="Apagar">-->
                 </form>
+
             </div>
             <div class="col-xs-6 col-md-4"></div>
 
@@ -110,16 +120,55 @@
 
 <?php
 
-//// Funciones PHP del pin GPIO 17
+/// Funciones PHP del pin GPIO 17
 //
-//if ($_POST[turnOn17]) {
+if ($_REQUEST['encender17']){
+    echo $date;
+}
+if ($_POST['turnOn17']) {
 //    $a- exec("sudo python /var/www/leds/gpio/17/enciende.py");
 //    echo $a;
-//}
 //
-//if ($_POST[apagar17]) {
+    echo $date; // Prueba para ver si entra en el loop al pulsar el botón de arriba (que aún no funciona correctamente)
+
+    $stmt = $movement_done->runQuery("INSERT INTO movements(movement_id, movement_date)
+      VALUES(:movement_id, :movement_date)");
+
+    $null = null;
+    $stmt->bindparam(":movement_id", $null);
+    $stmt->bindparam(":movement_date", date('Y-m-d H:i:s'));
+
+    $stmt->execute();
+
+    $stmt2 = $led_action->runQuery("INSERT INTO led_status(led_id, led_reason, led_status, led_date)
+      VALUES(:led_id, :led_reason, :led_status, :led_date)");
+
+    $led_reason = "web";
+    $led_status = "on";
+    $stmt2->bindparam(":led_id", $null);
+    $stmt2->bindparam(":led_reason", $led_reason);
+    $stmt2->bindparam(":led_status", $led_status);
+    $stmt2->bindparam(":led_date", date('Y-m-d H:i:s'));
+
+    $stmt2->execute();
+}
+//
+//if ($_POST[turnOff17]) {
 //    $a- exec("sudo python /var/www/leds/gpio/17/apaga.py");
 //    echo $a;
+
+    /*$stmt = $led_action->runQuery("INSERT INTO led_status(led_id, led_reason, led_status, led_date)
+          VALUES(:led_id, :led_reason, :led_status, :led_date)");
+
+    $led_reason = "web";
+    $led_status = "off";
+    $stmt->bindparam(":led_id", $null);
+    $stmt->bindparam(":led_id", $null);
+    $stmt->bindparam(":led_status", $led_status);
+    $stmt->bindparam(":led_date", date('Y-m-d H:i:s'));
+
+    $stmt->execute();*/
+
 //}
 //
 //if ($_POST[parpadear17]) {
@@ -127,6 +176,6 @@
 //    echo $a;
 //}
 //
-//// Fin de las funciónes del pin GPIO 17
+//// Fin de las funciones del pin GPIO 17
 
 ?>

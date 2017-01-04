@@ -73,8 +73,7 @@ if(isset($_POST['btn-login']))
                 	<i class="glyphicon glyphicon-log-in"></i> &nbsp; SIGN IN
             </button>
         </div>  
-      	<!--<br />
-            <label>Don't have account yet? <a href="sign-up.php">Sign Up</a></label>-->
+
       </form>
 
     </div>
