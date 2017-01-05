@@ -93,10 +93,10 @@
                         <input type="submit" name="turnOn17" value="LUZ" class="btn btn-primary btn-lg btn-block" />
                     </div>
                     <br>
-                    <!--<div class="inner-addon left-addon">
+                    <div class="inner-addon left-addon">
                         <i class="glyphicon glyphicon-lamp"></i>
-                        <input type="submit" name="turnOff17" value="Apagar" class="btn btn-primary btn-lg btn-block" />
-                    </div>-->
+                        <input type="submit" name="turnOff17" value="Apagar" class="btn btn-danger btn-lg btn-block" />
+                    </div>
                 </form>
 
             </div>
@@ -125,7 +125,11 @@ if (isset($_POST['turnOn17'])) {
 //    echo $a;
 
     echo $date;
+    echo "<br> Luz encendida!";
 
+    // En este caso no hay que insertar nada en la tabla de movimientos, ya que lo que se hace
+    // es activar directamente la luz desde la web, sin que el sensor de movimiento lo detecte..
+    /*
     $stmt = $movement_done->runQuery("INSERT INTO movements(movement_id, movement_date)
       VALUES(:movement_id, :movement_date)");
 
@@ -134,7 +138,7 @@ if (isset($_POST['turnOn17'])) {
     $stmt->bindparam(":movement_date", date('Y-m-d H:i:s'));
 
     $stmt->execute();
-
+    */
 
     // Si el script que hemos hecho sobre el sensor fotosesible detecta que el nivel de luz en el ambiente es
     // mayor que el que se necesita para poder ver algo, no se va a encender la luz led, en caso contrario, se
@@ -153,11 +157,14 @@ if (isset($_POST['turnOn17'])) {
     $stmt2->execute();
 }
 
-//if ($_POST[turnOff17]) {
+if (isset($_POST['turnOff17'])) {
 //    $a- exec("sudo python /var/www/leds/gpio/17/apaga.py");
 //    echo $a;
 
-    /*$stmt = $led_action->runQuery("INSERT INTO led_status(led_id, led_reason, led_status, led_date)
+    echo $date;
+    echo "<br> Luz apagada..";
+
+    $stmt = $led_action->runQuery("INSERT INTO led_status(led_id, led_reason, led_status, led_date)
           VALUES(:led_id, :led_reason, :led_status, :led_date)");
 
     $led_reason = "web";
@@ -167,9 +174,9 @@ if (isset($_POST['turnOn17'])) {
     $stmt->bindparam(":led_status", $led_status);
     $stmt->bindparam(":led_date", date('Y-m-d H:i:s'));
 
-    $stmt->execute();*/
+    $stmt->execute();
 
-//}
+}
 
 //if ($_POST[parpadear17]) {
 //    $a- exec("sudo python /var/www/leds/gpio/17/parpadea.py");

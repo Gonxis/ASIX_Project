@@ -3,7 +3,8 @@
 ////// Descargar Base de datos desde la web
 
 // Nombre del archivo de con el cual queremos que se guarde la base de datos
-$filename = "projectasix.sql";
+$date = date("Y-m-d");
+$filename = "projectasix" . $date . ".sql";
 // Cabezeras para forzar al navegador a guardar el archivo
 header("Pragma: no-cache");
 header("Expires: 0");
