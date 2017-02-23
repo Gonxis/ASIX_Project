@@ -1,6 +1,4 @@
 <?php
-session_start();
-
 require_once("session.php");
 
 require_once("class.user.php");
@@ -18,6 +16,15 @@ $stmt = $auth_user->runQuery("SELECT * FROM users WHERE user_id=:user_id");
 $stmt->execute(array(":user_id" => $user_id));
 
 $userRow = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// executing the QUERY request to MySQL server, mysql_query() returns resource ID
+$stmt2 = $led_action->runQuery('SELECT led_id, led_status FROM led_status ORDER BY led_id DESC LIMIT 1');
+$stmt2->execute();
+// then we use this resource ID to fetch the actual value MySQL have returned
+$lastLedRow = $stmt2->fetch(PDO::FETCH_ASSOC);
+// $row variable now holds all the data we got from MySQL, its an array, so we just output the public_id column value to the screen
+/*echo "<br><br><br><br><br>";
+echo $lastLedRow['led_status'];*/ // you can use var_dump($row); to see the whole content of $row
 
 $date = date('Y-m-d H:i:s');
 
@@ -105,7 +112,8 @@ $date = date('Y-m-d H:i:s');
                             <i class="glyphicon glyphicon-lamp"></i>
                             <!-- Rounded switch -->
                             <label class="switch">
-                                <input type="checkbox" id="check" name="onoffswitch" class="onoffswitch-checkbox">
+                                <input type="checkbox" id="check" name="onoffswitch" class="onoffswitch-checkbox"
+                                <?php if($lastLedRow['led_status'] == "on"){echo "checked";} else {echo "";} ?>>
                                 <div class="slider round"></div>
                             </label>
                         </div>
@@ -141,7 +149,7 @@ $date = date('Y-m-d H:i:s');
                 data: ({active: data}),
                 url: 'switch.php',
                 success: function (response) {
-                    console.log("¡Inserción creada con éxito!");
+                    //console.log("¡Inserción creada con éxito!");
                     //alert(response);
                 }
             });

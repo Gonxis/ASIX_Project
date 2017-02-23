@@ -15,8 +15,8 @@ if (isset($_POST["active"])) {
 
         echo $date;
 
-        //    $a- exec("sudo python /var/www/leds/gpio/17/enciende.py");
-        //    echo $a;
+	exec(" sudo -u www-data python /var/www/gpio/enciende.py");
+	//echo $a;
 
         // Si el script que hemos hecho sobre el sensor fotosesible detecta que el nivel de luz en el ambiente es
         // mayor que el que se necesita para poder ver algo, no se va a encender la luz led, en caso contrario, se
@@ -38,8 +38,11 @@ if (isset($_POST["active"])) {
 
         echo $date;
 
-        //    $a- exec("sudo python /var/www/leds/gpio/17/apaga.py");
-        //    echo $a;
+	//$b = "sudo python /home/pi/Desktop/scripts/apaga.py";
+	//exec("/home/pi/Desktop/scripts/apaga.py");
+	exec(" sudo -u www-data python /var/www/gpio/apaga.py");
+	//echo $a;
+	//echo $b;
 
         $stmt = $led_action->runQuery("INSERT INTO led_status(led_id, led_reason, led_status, led_date)
           VALUES(:led_id, :led_reason, :led_status, :led_date)");

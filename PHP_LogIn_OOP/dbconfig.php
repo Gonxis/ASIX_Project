@@ -4,7 +4,7 @@ class Database
     private $host = "localhost";
     private $db_name = "projectasix";
     private $username = "root";
-    private $password = "root";
+    private $password = "Gonzalo12345";
     public $conn;
      
     public function dbConnection()
