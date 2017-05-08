@@ -32,7 +32,8 @@ try:
 
 			print ("Aquí debería encender la luz porque está oscuro")
 			print GPIO.input(pinLDR)
-			result = commands.getoutput("/usr/bin/python /var/www/gpio/enciende.py")
+			#result = commands.getoutput("/usr/bin/python /var/www/gpio/enciende.py")
+			result = commands.getoutput("/usr/bin/python /var/www/gpio/sensor_infrarrojo.py")
 			time.sleep(2)
 
 		else:

@@ -39,13 +39,13 @@ try:
 			try:
 				
 				print ("Se hacen 2 inserciones en led_status y movements")
-				#sql = "INSERT into led_status (led_reason, led_status, led_date) values ('%s', '%s', '%s')" % ('sensor de movimiento', 'on', ledDate)
-				#x.execute(sql)
-				#conn.commit()
+				sql = "INSERT into led_status (led_reason, led_status, led_date) values ('%s', '%s', '%s')" % ('sensor de movimiento', 'on', ledDate)
+				x.execute(sql)
+				conn.commit()
 
-				#sql2 = "INSERT into movements (movement_date) values ('%s')" % (ledDate)
-				#x.execute(sql2)
-				#conn.commit()
+				sql2 = "INSERT into movements (movement_date) values ('%s')" % (ledDate)
+				x.execute(sql2)
+				conn.commit()
 
 			except:
 
@@ -62,9 +62,9 @@ try:
 			try:
 
 				print ("Se hace una iserción por timeout")
-				#sql = "INSERT into led_status (led_reason, led_status, led_date) values ('%s', '%s', '%s')" % ('timeout', 'off', ledDate)
-				#x.execute(sql)
-				#conn.commit()
+				sql = "INSERT into led_status (led_reason, led_status, led_date) values ('%s', '%s', '%s')" % ('timeout', 'off', ledDate)
+				x.execute(sql)
+				conn.commit()
 
 			except:
 
