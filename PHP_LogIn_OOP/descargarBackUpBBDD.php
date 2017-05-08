@@ -21,7 +21,8 @@ $bd="projectasix";  // Nombre de la Base de Datos a exportar
 //system($executa, $resultado);
 
 // Funciones para exportar la base de datos desde Linux
-$executa2 = "/mysql/bin/mysqldump -u $usuario --password=$passwd --opt $bd";
+//$executa2 = "/mysql/bin/mysqldump -u $usuario --password=$passwd --opt $bd";
+$executa2 = "mysqldump --user=$usuario --password=$passwd --opt $bd";
 system($executa2, $resultado2);
 
 // Comprobar si se a realizado bien, si no es asi, mostrará un mensaje de error
